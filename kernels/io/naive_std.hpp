@@ -9,6 +9,7 @@
 #define KERNELS_IO_NAIVE_STD_HPP_
 
 #include <cstdint>
+#include <boost/filesystem/path.hpp>
 
 namespace kernels {
 namespace io {
@@ -26,6 +27,7 @@ public:
     void run();
 
 private:
+    boost::filesystem::path file_;
     uint64_t size_;
 };
 
