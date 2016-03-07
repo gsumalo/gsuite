@@ -20,6 +20,7 @@ public:
     NaiveStdWriter();
     NaiveStdWriter(const NaiveStdWriter &) = delete;
     NaiveStdWriter(NaiveStdWriter &&) = default;
+    ~NaiveStdWriter();
 
     NaiveStdWriter & operator=(const NaiveStdWriter &) = delete;
     NaiveStdWriter & operator=(NaiveStdWriter &&) = default;
@@ -29,6 +30,7 @@ public:
 private:
     boost::filesystem::path file_;
     uint64_t size_;
+    uint64_t buffer_size_;
 };
 
 }}
