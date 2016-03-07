@@ -9,7 +9,7 @@ find_package(Boost 1.54.0 REQUIRED COMPONENTS filesystem system)
 include_directories(${Boost_INCLUDE_DIRS})
 
 set(KERNELS_SRC
-	"kernels/io/naive_std.cpp"
+	"kernels/io/naive_std_writer.cpp"
 )
 
 set(GSUITE_BIN "gsuite-${CMAKE_SYSTEM_NAME}-${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")

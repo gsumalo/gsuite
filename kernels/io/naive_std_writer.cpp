@@ -5,19 +5,20 @@
  *      Author: jesus
  */
 
-#include "naive_std.hpp"
+#include "naive_std_writer.hpp"
+
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/operations.hpp>
 
 namespace kernels {
 namespace io {
 
-NaiveStd::NaiveStd()
+NaiveStdWriter::NaiveStdWriter()
     : file_(boost::filesystem::unique_path()), size_(0)
 {
 }
 
-void NaiveStd::run()
+void NaiveStdWriter::run()
 {
     boost::filesystem::ofstream file(file_);
 

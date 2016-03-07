@@ -1,12 +1,13 @@
 #include <cstdlib>
-#include "kernels/io/naive_std.hpp"
+
+#include "kernels/io/naive_std_writer.hpp"
 
 int main(int argc, const char * argv[])
 {
     int rv(EXIT_SUCCESS);
 
     try {
-        kernels::io::NaiveStd primer;
+        kernels::io::NaiveStdWriter primer;
 
         primer.run();
     } catch (...) {
