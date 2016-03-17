@@ -18,12 +18,18 @@ class NaiveStdWriter
 {
 public:
     NaiveStdWriter();
+    NaiveStdWriter(uint64_t size, uint64_t buffer_size);
     NaiveStdWriter(const NaiveStdWriter &) = delete;
     NaiveStdWriter(NaiveStdWriter &&) = default;
     ~NaiveStdWriter();
 
     NaiveStdWriter & operator=(const NaiveStdWriter &) = delete;
     NaiveStdWriter & operator=(NaiveStdWriter &&) = default;
+
+    const boost::filesystem::path & get_file() const
+    {
+        return file_;
+    }
 
     void run();
 

@@ -14,8 +14,15 @@ namespace kernels {
 namespace io {
 
 NaiveStdWriter::NaiveStdWriter()
-    : file_(boost::filesystem::unique_path()), size_(0), buffer_size_(0)
+    : file_{boost::filesystem::unique_path()}, size_{0}, buffer_size_{0}
 {
+}
+
+NaiveStdWriter::NaiveStdWriter(uint64_t size, uint64_t buffer_size)
+    : NaiveStdWriter{}
+{
+    size_ = size;
+    buffer_size_ = buffer_size;
 }
 
 NaiveStdWriter::~NaiveStdWriter()
@@ -39,8 +46,8 @@ void NaiveStdWriter::run()
     file.open(file_);
 
     // Real kernel code
-    char byte(0);
-    for (uint64_t i(0); i < size_; ++i, ++byte) {
+    char byte{0};
+    for (uint64_t i{0}; i < size_; ++i, ++byte) {
         file.write(&byte, sizeof(byte));
     }
 
