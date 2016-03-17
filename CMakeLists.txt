@@ -4,7 +4,7 @@ project(gsuite)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Boost 1.54.0 REQUIRED COMPONENTS filesystem system)
+find_package(Boost 1.54.0 REQUIRED COMPONENTS filesystem system program_options)
 
 include_directories(${Boost_INCLUDE_DIRS})
 
