@@ -8,21 +8,23 @@ int main(int argc, const char * argv[])
     int rv(EXIT_SUCCESS);
 
     const std::string HELP_COMMAND{"help"};
-    const std::string KERNEL_IO_NAIVESTDWRITER_COMMAND{"kernel.io.naivestdwriter"};
-    const std::string KERNEL_IO_NAIVESTDWRITER_SIZE_OPTION{"kernel.io.naivestdwriter.size"};
-    const std::string KERNEL_IO_NAIVESTDWRITER_BUFFERSIZE_OPTION{"kernel.io.naivestdwriter.buffersize"};
+    const std::string KERNEL_COMMAND{"kernel"};
+    const std::string KERNEL_IO_NAIVESTDWRITER_SELECTION{"io.naivestdwriter"};
+    const std::string KERNEL_IO_NAIVESTDWRITER_SIZE_OPTION{"io.naivestdwriter.size"};
+    const std::string KERNEL_IO_NAIVESTDWRITER_BUFFERSIZE_OPTION{"io.naivestdwriter.buffersize"};
 
     try {
         boost::program_options::options_description commands_spec("Allowed options");
 
+        std::string kernel_selection;
         boost::program_options::options_description generic_spec("Generic commands");
         generic_spec.add_options()
-                (HELP_COMMAND.c_str(), "Show this help");
+                (HELP_COMMAND.c_str(), "Show this help")
+                (KERNEL_COMMAND.c_str(), boost::program_options::value<std::string>(&kernel_selection),
+                        ("Kernel selection (" + KERNEL_IO_NAIVESTDWRITER_SELECTION + ")").c_str());
 
         uint64_t size, buffer_size;
         boost::program_options::options_description kernels_spec("Available kernels");
-        kernels_spec.add_options()
-                (KERNEL_IO_NAIVESTDWRITER_COMMAND.c_str(), "Naive STD based writer");
         kernels_spec.add_options()
                 (KERNEL_IO_NAIVESTDWRITER_SIZE_OPTION.c_str(),
                         boost::program_options::value<uint64_t>(&size)->default_value(0), "Size of the generated file");
@@ -38,14 +40,18 @@ int main(int argc, const char * argv[])
 
         if (vm.count(HELP_COMMAND)) {
             std::cout << commands_spec << std::endl;
-        } else if (vm.count(KERNEL_IO_NAIVESTDWRITER_COMMAND)) {
-            if (vm.count(KERNEL_IO_NAIVESTDWRITER_SIZE_OPTION)
-                    && vm.count(KERNEL_IO_NAIVESTDWRITER_BUFFERSIZE_OPTION)) {
-                kernels::io::NaiveStdWriter primer(size, buffer_size);
+        } else if (vm.count(KERNEL_COMMAND)) {
+            if (kernel_selection == KERNEL_IO_NAIVESTDWRITER_SELECTION) {
+                if (vm.count(KERNEL_IO_NAIVESTDWRITER_SIZE_OPTION)
+                        && vm.count(KERNEL_IO_NAIVESTDWRITER_BUFFERSIZE_OPTION)) {
+                    kernels::io::NaiveStdWriter primer(size, buffer_size);
 
-                primer.run();
+                    primer.run();
+                } else {
+                    throw std::runtime_error("Missing arguments");
+                }
             } else {
-                throw std::runtime_error("Missing arguments");
+                throw std::runtime_error("Unknown kernel: " + kernel_selection);
             }
         } else {
             throw std::runtime_error("No kernel specification was found.");
